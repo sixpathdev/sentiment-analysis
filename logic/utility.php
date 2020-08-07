@@ -36,6 +36,23 @@ function getPosts()
     return $response;
 }
 
+function getIp()
+{
+    if (!empty($_SERVER["HTTP_CLIENT_IP"])) {
+        //check for ip from share internet
+        $ip = $_SERVER["HTTP_CLIENT_IP"];
+    } elseif (!empty($_SERVER["HTTP_X_FORWARDED_FOR"])) {
+        // Check for the Proxy User
+        $ip = $_SERVER["HTTP_X_FORWARDED_FOR"];
+    } else {
+        $ip = $_SERVER["REMOTE_ADDR"];
+    }
+
+    // This will print user's real IP Address
+    // does't matter if user using proxy or not.
+    return $ip;
+}
+
 function insertDb($body)
 {
     global $db;
@@ -45,11 +62,20 @@ function insertDb($body)
     $db->insert('post', $data);
 }
 
-function insertVote($table, $post_id)
+function verifyIp($table, $post_id, $ip)
+{
+    global $db;
+    $getColumn = $db->JsonBuilder()->rawQuery("SELECT * FROM $table WHERE user_ip = ? AND post_id = ?", array($ip, $post_id));
+    $response = json_decode($getColumn, true);
+    return $response;
+}
+
+function insertVote($table, $post_id, $user_ip)
 {
     global $db;
     $data = array(
-        "post_id" => $post_id
+        "post_id" => $post_id,
+        "user_ip" => $user_ip
     );
     $db->insert($table, $data);
 }
@@ -60,8 +86,6 @@ function vote($table, $post_id)
     $getColumn = $db->JsonBuilder()->rawQuery("SELECT * FROM $table WHERE post_id = ?", array($post_id));
     $response = json_decode($getColumn, true);
     return $response;
-    // $updated_value = (int)$response[0]['$column'] + 1;
-    // $db->JsonBuilder()->rawQuery("UPDATE $table SET 'count' = ? WHERE ", array($updated_value));
 }
 
 function updateDb($table, $column)

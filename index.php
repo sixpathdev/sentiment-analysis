@@ -1,6 +1,5 @@
 <?php
 require "./logic/utility.php";
-
 $posts = getPosts();
 
 ?>
@@ -27,55 +26,18 @@ $posts = getPosts();
                     </div>
                     <button type="submit" name="submit_post" class="btn px-4 primary-bg">Submit</button>
                 </form>
+                <?php if (isset($_SESSION['error'])) { ?>
+                    <div id="alert" class="alert mt-3 alert-danger">
+                        <?php
+                        echo $_SESSION['error'];
+                        unset($_SESSION['error']);
+                        echo "<script>setTimeout(function(){ document.getElementById('alert').style.display='none' },1400)</script>";
+                        ?>
+                    </div>
+                <?php } ?>
             </div>
-            <!-- <div class="col-5">
-                <div class="sentiment-options">
-                    <div class="options-container">
-                        <button class="btn primary-bg" onclick="submitfunc('good')" style="width:245px;">
-                            <form action="" method="POST">
-                                <span>Good</span>
-                                <input type="hidden" name="good">
-                            </form>
-                        </button>
-                        <button class="btn primary-bg ml-4" onclick="submitfunc('negative')" style="width:245px;">
-                            <form action="" method="post">
-                                <span>negative</span>
-                                <input type="hidden" name="negative">
-                            </form>
-                        </button>
-                    </div>
-                    <div class="options-container mt-3">
-                        <button class="btn primary-bg" onclick="submitfunc('neutral')" style="width:245px;">
-                            <form action="" method="post">
-                                <span>neutral</span>
-                                <input type="hidden" name="neutral">
-                            </form>
-                        </button>
-                        <button class="btn primary-bg ml-4" onclick="submitfunc()" style="width:245px;">
-                            <form action="" method="post">
-                                <span>Awesome</span>
-                                <input type="hidden" name="Awesome">
-                            </form>
-                        </button>
-                    </div>
-                    <div class="options-container mt-3">
-                        <button class="btn primary-bg" onclick="submitfunc('poor')" style="width:245px;">
-                            <form action="" method="post">
-                                <span>Poor</span>
-                                <input type="hidden" name="Poor">
-                            </form>
-                        </button>
-                        <button class="btn primary-bg ml-4" onclick="submitfunc('useless')" style="width:245px;">
-                            <form action="" method="post">
-                                <span>Useless</span>
-                                <input type="hidden" name="Useless">
-                            </form>
-                        </button>
-                    </div>
-                </div>
-            </div> -->
             <?php for ($i = 0; $i < count($posts); $i++) { ?>
-                <div class="col-7 py-4 mt-5 sentiment-stats">
+                <div class="col-7 py-4 mt-4 sentiment-stats">
                     <div class="mb-2">
                         <span style="color: #603984;font-weight:400;"><?php echo $posts[$i]['text'] ?></span>
                     </div>
@@ -83,8 +45,15 @@ $posts = getPosts();
                         <button class="btn primary-bg my-1 stats-btn" onclick="submitform('positive_<?php echo $posts[$i]['id'] ?>')">
                             <span>Positive</span>
                             <span class="ml-1 p-1 stats-count""><?php echo count(vote('positive', $posts[$i]['id'])) ?></span>
-                        <form id="positive_<?php echo $posts[$i]['id'] ?>" action="insert.php" method="post">
+                        <form action="insert.php" method="post" id="positive_<?php echo $posts[$i]['id'] ?>">
                                 <input type="hidden" name="vote" value="positive_<?php echo $posts[$i]['id'] ?>">
+                                </form>
+                        </button>
+                        <button class=" btn primary-bg my-1 stats-btn" onclick="submitform('negative_<?php echo $posts[$i]['id'] ?>')">
+                            <span>Negative</span>
+                            <span class="ml-1 p-1 stats-count""><?php echo count(vote('negative', $posts[$i]['id'])) ?></span>
+                            <form action="insert.php" method="post" id="negative_<?php echo $posts[$i]['id'] ?>">
+                                <input type="hidden" name="vote" value="negative_<?php echo $posts[$i]['id'] ?>">
                                 </form>
                         </button>
                         <button class=" btn primary-bg my-1 stats-btn" onclick="submitform('neutral_<?php echo $posts[$i]['id'] ?>')">
@@ -92,13 +61,6 @@ $posts = getPosts();
                             <span class="ml-1 p-1 stats-count""><?php echo count(vote('neutral', $posts[$i]['id'])) ?></span>
                                 <form action="insert.php" method="post" id="neutral_<?php echo $posts[$i]['id'] ?>">
                                 <input type="hidden" name="vote" value="neutral_<?php echo $posts[$i]['id'] ?>">
-                                </form>
-                        </button>
-                        <button class=" btn primary-bg my-1 stats-btn" onclick="submitform('negative_<?php echo $posts[$i]['id'] ?>')">
-                            <span>Negative</span>
-                            <span class="ml-1 p-1 stats-count""><?php echo count(vote('negative', $posts[$i]['id'])) ?></span>
-                            <form id="negative_<?php echo $posts[$i]['id'] ?>" action="insert.php" method="post">
-                                <input type="hidden" name="vote" value="negative_<?php echo $posts[$i]['id'] ?>">
                                 </form>
                         </button>
                     </div>
