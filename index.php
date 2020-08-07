@@ -37,18 +37,18 @@ $posts = getPosts();
                                 <input type="hidden" name="good">
                             </form>
                         </button>
-                        <button class="btn primary-bg ml-4" onclick="submitfunc('bad')" style="width:245px;">
+                        <button class="btn primary-bg ml-4" onclick="submitfunc('negative')" style="width:245px;">
                             <form action="" method="post">
-                                <span>Bad</span>
-                                <input type="hidden" name="Bad">
+                                <span>negative</span>
+                                <input type="hidden" name="negative">
                             </form>
                         </button>
                     </div>
                     <div class="options-container mt-3">
-                        <button class="btn primary-bg" onclick="submitfunc('fair')" style="width:245px;">
+                        <button class="btn primary-bg" onclick="submitfunc('neutral')" style="width:245px;">
                             <form action="" method="post">
-                                <span>Fair</span>
-                                <input type="hidden" name="Fair">
+                                <span>neutral</span>
+                                <input type="hidden" name="neutral">
                             </form>
                         </button>
                         <button class="btn primary-bg ml-4" onclick="submitfunc()" style="width:245px;">
@@ -80,52 +80,25 @@ $posts = getPosts();
                         <span style="color: #603984;font-weight:400;"><?php echo $posts[$i]['text'] ?></span>
                     </div>
                     <div class="options-container">
-                        <button class="btn primary-bg my-1 stats-btn" onclick="submitform('good_<?php echo $posts[$i]['id'] ?>')">
-                            <span>Good</span>
-                            <span class="ml-1 p-1 stats-count""><?php echo count(vote('good', $posts[$i]['id'])) ?></span>
-                        <form id="good_<?php echo $posts[$i]['id'] ?>" action="insert.php" method="post">
-                                <input type="hidden" name="vote" value="good_<?php echo $posts[$i]['id'] ?>">
+                        <button class="btn primary-bg my-1 stats-btn" onclick="submitform('positive_<?php echo $posts[$i]['id'] ?>')">
+                            <span>Positive</span>
+                            <span class="ml-1 p-1 stats-count""><?php echo count(vote('positive', $posts[$i]['id'])) ?></span>
+                        <form id="positive_<?php echo $posts[$i]['id'] ?>" action="insert.php" method="post">
+                                <input type="hidden" name="vote" value="positive_<?php echo $posts[$i]['id'] ?>">
                                 </form>
                         </button>
-                        <button class=" btn primary-bg my-1 stats-btn" onclick="submitform('bad_<?php echo $posts[$i]['id'] ?>')">
-                            <span>Bad</span>
-                            <span class="ml-1 p-1 stats-count""><?php echo count(vote('bad', $posts[$i]['id'])) ?></span>
-                            <form id="bad_<?php echo $posts[$i]['id'] ?>" action="insert.php" method="post">
-                                <input type="hidden" name="vote" value="bad_<?php echo $posts[$i]['id'] ?>">
+                        <button class=" btn primary-bg my-1 stats-btn" onclick="submitform('neutral_<?php echo $posts[$i]['id'] ?>')">
+                            <span>Neutral</span>
+                            <span class="ml-1 p-1 stats-count""><?php echo count(vote('neutral', $posts[$i]['id'])) ?></span>
+                                <form action="insert.php" method="post" id="neutral_<?php echo $posts[$i]['id'] ?>">
+                                <input type="hidden" name="vote" value="neutral_<?php echo $posts[$i]['id'] ?>">
                                 </form>
                         </button>
-                        <button class=" btn primary-bg my-1 stats-btn" onclick="submitform('fair_<?php echo $posts[$i]['id'] ?>')">
-                            <span>Fair</span>
-                            <span class="ml-1 p-1 stats-count""><?php echo count(vote('fair', $posts[$i]['id'])) ?></span>
-                                <form action="insert.php" method="post" id="fair_<?php echo $posts[$i]['id'] ?>">
-                                <input type="hidden" name="vote" value="fair_<?php echo $posts[$i]['id'] ?>">
-                                </form>
-                        </button>
-                        <button class=" btn primary-bg my-1 stats-btn" onclick="submitform('awesome_<?php echo $posts[$i]['id'] ?>')">
-                            <span>Awesome</span>
-                            <span class="ml-1 p-1 stats-count""><?php echo count(vote('awesome', $posts[$i]['id'])) ?></span>
-                                    <form id="awesome_<?php echo $posts[$i]['id'] ?>" action="insert.php" method="post">
-                                <input type="hidden" name="vote" value="awesome_<?php echo $posts[$i]['id'] ?>">
-                                </form>
-                        </button>
-                        
-                        <button class=" btn primary-bg my-1 stats-btn" onclick="submitform('poor_<?php echo $posts[$i]['id'] ?>')">
-                            <span>Poor</span>
-                            <span class="ml-1 p-1 stats-count""><?php echo count(vote('poor', $posts[$i]['id'])) ?></span>
-                                    <form id="poor_<?php echo $posts[$i]['id'] ?>" action="insert.php" method="post">
-                                <input type="hidden" name="vote" value="poor_<?php echo $posts[$i]['id'] ?>">
-                                </form>
-                        </button>
-                        
-                        
-
-
-
-                        <button class=" btn primary-bg my-1 stats-btn" onclick="submitform('useless_<?php echo $posts[$i]['id'] ?>')">
-                            <span>Useless</span>
-                            <span class="ml-1 p-1 stats-count"><?php echo count(vote('useless', $posts[$i]['id'])) ?></span>
-                                <form id="useless_<?php echo $posts[$i]['id'] ?>" action="insert.php" method="post">
-                                <input type="hidden" name="vote" value="useless_<?php echo $posts[$i]['id'] ?>">
+                        <button class=" btn primary-bg my-1 stats-btn" onclick="submitform('negative_<?php echo $posts[$i]['id'] ?>')">
+                            <span>Negative</span>
+                            <span class="ml-1 p-1 stats-count""><?php echo count(vote('negative', $posts[$i]['id'])) ?></span>
+                            <form id="negative_<?php echo $posts[$i]['id'] ?>" action="insert.php" method="post">
+                                <input type="hidden" name="vote" value="negative_<?php echo $posts[$i]['id'] ?>">
                                 </form>
                         </button>
                     </div>

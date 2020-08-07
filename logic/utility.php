@@ -49,8 +49,7 @@ function insertVote($table, $post_id)
 {
     global $db;
     $data = array(
-        "post_id" => $post_id,
-        "count" => 1
+        "post_id" => $post_id
     );
     $db->insert($table, $data);
 }
