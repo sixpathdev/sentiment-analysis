@@ -1,0 +1,50 @@
+body {
+  background-color: #603984;
+  color: #fff;
+  font-family: 'Roboto', sans-serif !important;
+  font-weight: bold;
+}
+.center-form {
+  margin-top: 90px;
+}
+textarea:focus,
+button.btn:focus,
+textarea.form-control:focus,
+[contenteditable].form-control:focus {
+  box-shadow: none !important;
+}
+textarea {
+  height: 160px !important;
+}
+.primary-bg {
+  background-color: #9b51e0;
+  border-radius: 58px;
+  color: #fff;
+}
+.btn.primary-bg:hover {
+    color:#603984;
+}
+.sentiment-options {
+    display: flex;
+    flex-direction:column;
+}
+.sentiment-options .options-container {
+    margin:5px 0px;
+    display: flex;
+    flex-direction:row;
+    width:260px;
+}
+.sentiment-stats {
+    background: #FFFFFF;
+border-radius: 38px;
+}
+.stats-btn {
+    width:160px;
+}
+.stats-count {
+    background: #FFFFFF;
+    width: 55px;
+    height: 45px;
+    color:#603984;
+    border-radius:30px;
+}
