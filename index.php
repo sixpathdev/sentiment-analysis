@@ -37,32 +37,12 @@ $posts = getPosts();
                 <?php } ?>
             </div>
             <?php for ($i = 0; $i < count($posts); $i++) { ?>
-                <div class="col-7 py-4 mt-4 sentiment-stats">
+                <div class="col-7 py-1 pl-4 mt-4 sentiment-stats">
                     <div class="mb-2">
                         <span style="color: #603984;font-weight:400;"><?php echo $posts[$i]['text'] ?></span>
                     </div>
                     <div class="options-container">
-                        <button class="btn primary-bg my-1 stats-btn" onclick="submitform('positive_<?php echo $posts[$i]['id'] ?>')">
-                            <span>Positive</span>
-                            <span class="ml-1 p-1 stats-count""><?php echo count(vote('positive', $posts[$i]['id'])) ?></span>
-                        <form action="insert.php" method="post" id="positive_<?php echo $posts[$i]['id'] ?>">
-                                <input type="hidden" name="vote" value="positive_<?php echo $posts[$i]['id'] ?>">
-                                </form>
-                        </button>
-                        <button class=" btn primary-bg my-1 stats-btn" onclick="submitform('negative_<?php echo $posts[$i]['id'] ?>')">
-                            <span>Negative</span>
-                            <span class="ml-1 p-1 stats-count""><?php echo count(vote('negative', $posts[$i]['id'])) ?></span>
-                            <form action="insert.php" method="post" id="negative_<?php echo $posts[$i]['id'] ?>">
-                                <input type="hidden" name="vote" value="negative_<?php echo $posts[$i]['id'] ?>">
-                                </form>
-                        </button>
-                        <button class=" btn primary-bg my-1 stats-btn" onclick="submitform('neutral_<?php echo $posts[$i]['id'] ?>')">
-                            <span>Neutral</span>
-                            <span class="ml-1 p-1 stats-count""><?php echo count(vote('neutral', $posts[$i]['id'])) ?></span>
-                                <form action="insert.php" method="post" id="neutral_<?php echo $posts[$i]['id'] ?>">
-                                <input type="hidden" name="vote" value="neutral_<?php echo $posts[$i]['id'] ?>">
-                                </form>
-                        </button>
+                        <span style="font-weight:400;" class="<?php echo $posts[$i]['sentiment'] == 'negative' ? 'text-danger' : 'text-success' ?>"><?php echo $posts[$i]['sentiment'] ?></span>
                     </div>
                 </div>
             <?php } ?>

@@ -10,6 +10,8 @@ if (isset($_SESSION["user_id"])) {
 
 require_once(realpath(dirname(__FILE__)) . '/MysqliDb.php');
 require_once(realpath(dirname(__FILE__)) . '/db.php');
+require_once('vendor/autoload.php');
+Use Sentiment\Analyzer;
 
 try {
     $db = new MysqliDb($host, $dbusername, $dbpassword, $database);
@@ -36,63 +38,45 @@ function getPosts()
     return $response;
 }
 
-function getIp()
-{
-    if (!empty($_SERVER["HTTP_CLIENT_IP"])) {
-        //check for ip from share internet
-        $ip = $_SERVER["HTTP_CLIENT_IP"];
-    } elseif (!empty($_SERVER["HTTP_X_FORWARDED_FOR"])) {
-        // Check for the Proxy User
-        $ip = $_SERVER["HTTP_X_FORWARDED_FOR"];
-    } else {
-        $ip = $_SERVER["REMOTE_ADDR"];
-    }
+// function getIp()
+// {
+//     if (!empty($_SERVER["HTTP_CLIENT_IP"])) {
+//         //check for ip from share internet
+//         $ip = $_SERVER["HTTP_CLIENT_IP"];
+//     } elseif (!empty($_SERVER["HTTP_X_FORWARDED_FOR"])) {
+//         // Check for the Proxy User
+//         $ip = $_SERVER["HTTP_X_FORWARDED_FOR"];
+//     } else {
+//         $ip = $_SERVER["REMOTE_ADDR"];
+//     }
 
-    // This will print user's real IP Address
-    // does't matter if user using proxy or not.
-    return $ip;
-}
+//     // This will print user's real IP Address
+//     // does't matter if user using proxy or not.
+//     return $ip;
+// }
 
 function insertDb($body)
 {
+    $analyzer = new Analyzer();
     global $db;
+    $result = $analyzer->getSentiment($body);
+    // die(var_dump($result));
+    $result_value = max($result);
+    // die($result_value);
+    $result_key = array_search($result_value, $result);
+    $reaction = '';
+    if($result_key == 'pos') {
+        $reaction =  'positive';
+    } elseif($result_key == 'neg') {
+        $reaction = 'negative';
+    } elseif($result_key == 'compound') {
+        $reaction = 'compound';
+    } elseif($result_key == 'neu') {
+        $reaction = 'neutral';
+    }
     $data = array(
-        "text" => $body
+        "text" => $body,
+        "sentiment" => $reaction
     );
     $db->insert('post', $data);
-}
-
-function verifyIp($table, $post_id, $ip)
-{
-    global $db;
-    $getColumn = $db->JsonBuilder()->rawQuery("SELECT * FROM $table WHERE user_ip = ? AND post_id = ?", array($ip, $post_id));
-    $response = json_decode($getColumn, true);
-    return $response;
-}
-
-function insertVote($table, $post_id, $user_ip)
-{
-    global $db;
-    $data = array(
-        "post_id" => $post_id,
-        "user_ip" => $user_ip
-    );
-    $db->insert($table, $data);
-}
-
-function vote($table, $post_id)
-{
-    global $db;
-    $getColumn = $db->JsonBuilder()->rawQuery("SELECT * FROM $table WHERE post_id = ?", array($post_id));
-    $response = json_decode($getColumn, true);
-    return $response;
-}
-
-function updateDb($table, $column)
-{
-    global $db;
-    $getColumn = $db->JsonBuilder()->rawQuery("SELECT * FROM analysis");
-    $response = json_decode($getColumn, true);
-    $updated_value = (int)$response[0]['$column'] + 1;
-    $db->JsonBuilder()->rawQuery("UPDATE $table SET $column = ?", array($updated_value));
 }
