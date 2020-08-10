@@ -1,8 +1,8 @@
 <?php
 
 session_start();
-// error_reporting(0);
-// ini_set('display_errors', 0);
+error_reporting(0);
+ini_set('display_errors', 0);
 
 if (isset($_SESSION["user_id"])) {
     $user_id = $_SESSION["user_id"];
@@ -36,11 +36,7 @@ function getPosts($pageNum)
     $page = $pageNum;
     $db->pageLimit = 10;
     $response = $db->arraybuilder()->paginate("post", $page);
-    // $getColumn = $db->JsonBuilder()->rawQuery("SELECT * FROM post");
-    // $response = json_decode($getColumn, true);
-    // return $response;
     return $response;
-    // echo "showing $page out of " . $db->totalPages;
 }
 
 
@@ -48,10 +44,11 @@ function insertDb($body)
 {
     $analyzer = new Analyzer();
     global $db;
-    $result = $analyzer->getSentiment($body);
-    // die(var_dump($result));
+    if(empty($body) || strlen($body) < 4) {
+        $_SESSION['error'] = "Payload shouldn't be empty";
+    }
+    $result = $analyzer->getSentiment(htmlspecialchars($body, ENT_QUOTES));
     $result_value = max($result);
-    // die($result_value);
     $result_key = array_search($result_value, $result);
     $reaction = '';
     if($result_key == 'pos') {

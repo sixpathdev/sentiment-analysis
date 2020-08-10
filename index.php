@@ -24,10 +24,10 @@ if (count($posts) < 1) {
 <body>
     <div class="container center-form">
         <div class="row">
-        <div class="col-7 mb-3">
+        <div class="col-7 mb-3 mx-auto">
         <span class="d-block h3 text-center">Sentiment Analysis</span>
         </div>
-            <div class="col-7">
+            <div class="col-7 mx-auto">
                 <form method="POST" action="insert.php">
                     <div class="form-group">
                         <textarea class="form-control" name="review" cols="10" rows="10"></textarea>
@@ -45,7 +45,7 @@ if (count($posts) < 1) {
                 <?php } ?>
             </div>
             <?php for ($i = 0; $i < count($posts); $i++) { ?>
-                <div class="col-7 py-1 pl-4 mt-4 sentiment-stats">
+                <div class="col-7 mx-auto py-1 pl-4 mt-4 sentiment-stats">
                     <div class="mb-2">
                         <span style="color: #603984;font-weight:400;"><?php echo $posts[$i]['text'] ?></span>
                     </div>
