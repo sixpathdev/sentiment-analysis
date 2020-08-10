@@ -30,30 +30,19 @@ function output_response($state, $message, $data)
     echo json_encode($response);
 }
 
-function getPosts()
+function getPosts($pageNum)
 {
     global $db;
-    $getColumn = $db->JsonBuilder()->rawQuery("SELECT * FROM post");
-    $response = json_decode($getColumn, true);
+    $page = $pageNum;
+    $db->pageLimit = 10;
+    $response = $db->arraybuilder()->paginate("post", $page);
+    // $getColumn = $db->JsonBuilder()->rawQuery("SELECT * FROM post");
+    // $response = json_decode($getColumn, true);
+    // return $response;
     return $response;
+    // echo "showing $page out of " . $db->totalPages;
 }
 
-// function getIp()
-// {
-//     if (!empty($_SERVER["HTTP_CLIENT_IP"])) {
-//         //check for ip from share internet
-//         $ip = $_SERVER["HTTP_CLIENT_IP"];
-//     } elseif (!empty($_SERVER["HTTP_X_FORWARDED_FOR"])) {
-//         // Check for the Proxy User
-//         $ip = $_SERVER["HTTP_X_FORWARDED_FOR"];
-//     } else {
-//         $ip = $_SERVER["REMOTE_ADDR"];
-//     }
-
-//     // This will print user's real IP Address
-//     // does't matter if user using proxy or not.
-//     return $ip;
-// }
 
 function insertDb($body)
 {

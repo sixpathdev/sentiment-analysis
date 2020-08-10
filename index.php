@@ -1,8 +1,13 @@
 <?php
 require "./logic/utility.php";
-$posts = getPosts();
+$page = isset($_GET['page']) ? $_GET['page'] : 1;
+$posts = getPosts($page);
+if (count($posts) < 1) {
+    echo "<script>window.history.back();</script>";
+}
 
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -19,6 +24,9 @@ $posts = getPosts();
 <body>
     <div class="container center-form">
         <div class="row">
+        <div class="col-7 mb-3">
+        <span class="d-block h3 text-center">Sentiment Analysis</span>
+        </div>
             <div class="col-7">
                 <form method="POST" action="insert.php">
                     <div class="form-group">
@@ -46,6 +54,20 @@ $posts = getPosts();
                     </div>
                 </div>
             <?php } ?>
+            <div class="col-7 mt-3">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination float-right">
+                        <?php if (isset($_GET['page'])  && $_GET['page'] == 2) { ?>
+                            <li class="page-item"><a class="page-link" style="font-weight: 400;" href="/">Previous</a></li>
+                        <?php } elseif (!isset($_GET['page'])) { ?>
+                            <li class="page-item" style="display: none;"><a class="page-link" style="font-weight: 400;" href="/">Previous</a></li>
+                        <?php } else { ?>
+                            <li class="page-item"><a class="page-link" style="font-weight: 400;" href="<?php echo isset($_GET['page']) ? '?page=' . (int)($_GET['page'] - 1) : '?page=2' ?>">Previous</a></li>
+                        <?php } ?>
+                        <li class="page-item"><a class="page-link" style="font-weight: 400;" href="<?php echo isset($_GET['page']) ? '?page=' . (int)($_GET['page'] + 1) : '?page=2' ?>">Next</a></li>
+                    </ul>
+                </nav>
+            </div>
         </div>
     </div>
 
